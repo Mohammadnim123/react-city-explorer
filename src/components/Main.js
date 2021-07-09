@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { Component } from 'react'
 import { Form, Button, Card, ListGroup, Alert } from 'react-bootstrap'
 import Weather from './Weather'
+import Movies from './Movies'
+import Loading from './Loading';
 
 export class Main extends Component {
     constructor(props) {
@@ -9,10 +11,12 @@ export class Main extends Component {
         this.state = {
             formVal: '',
             locationData: {},
-            weatherData:[],
+            weatherData: [],
+            moviesData:[],
             danger: false,
-            checkData:false
-            
+            checkData: false,
+            loading: false
+
         }
     }
 
@@ -24,30 +28,36 @@ export class Main extends Component {
 
     submitHandler = async (e) => {
         e.preventDefault();
-        try{
-            
-        let locationData = await axios.get(`https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_CITY_KEY}&q=${this.state.formVal}&format=json`)
-        let weatherData = await axios.get(`http://localhost:3111/weather?searchQuery=${locationData.data[0].display_name}&lat=${locationData.data[0].lat}&lon=${locationData.data[0].lon}`)
-        this.setState({
-            locationData: locationData.data[0],
-            weatherData:weatherData.data,
-            danger:false,
-            checkData:true
-        })
+        try {
 
-    }
-    catch{
-        
-        this.setState({
-            checkData:false,
-            danger:true
-        })
-    }
+            this.setState({
+                loading:true
+            })
+
+            let locationData = await axios.get(`https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_CITY_KEY}&q=${this.state.formVal}&format=json`)
+            let weatherData = await axios.get(`${process.env.REACT_APP_SERVER}/weather?searchQuery=${this.state.formVal}&lat=${locationData.data[0].lat}&lon=${locationData.data[0].lon}`)
+            let moviesData = await axios.get(`${process.env.REACT_APP_SERVER}/movies?searchQuery=${this.state.formVal}`)
+            this.setState({
+                locationData: locationData.data[0],
+                weatherData: weatherData.data,
+                moviesData: moviesData.data,
+                danger: false,
+                checkData: true,
+                loading:false
+            })
+
+        }
+        catch {
+
+            this.setState({
+                checkData: false,
+                danger: true
+            })
+        }
     }
 
 
     render() {
-        console.log(this.state.weatherData);
         return (
             <main>
                 <Form style={{ width: '18rem' }} onSubmit={this.submitHandler}>
@@ -62,35 +72,33 @@ export class Main extends Component {
                     </Button>
                 </Form>
 
-                {this.state.checkData?
-                <>
-                <Card style={{ width: '18rem' }}>
+                {this.state.loading?<Loading/>:null}
 
-                    <ListGroup variant="flush">
-                        <ListGroup.Item>Name: {this.state.locationData.display_name}</ListGroup.Item>
-                        <ListGroup.Item>Lat: {this.state.locationData.lat}</ListGroup.Item>
-                        <ListGroup.Item>Lon: {this.state.locationData.lon}</ListGroup.Item>
-                    </ListGroup>
-                </Card>
-                <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${this.state.locationData.lat},${this.state.locationData.lon}`} alt={this.state.locationData.display_name}/>
-                {this.state.weatherData.map((elem,idx)=>{
-                    return <Weather 
-                    key = {idx}
-                    description = {elem.description}
-                    date = {elem.date}
-                    />
-                })}
-                
-                </>
-                : null
-    }
+                {this.state.checkData ?
+                    <>
+                        <Card style={{ width: '18rem' }}>
+
+                            <ListGroup variant="flush">
+                                <ListGroup.Item>Name: {this.state.locationData.display_name}</ListGroup.Item>
+                                <ListGroup.Item>Lat: {this.state.locationData.lat}</ListGroup.Item>
+                                <ListGroup.Item>Lon: {this.state.locationData.lon}</ListGroup.Item>
+                            </ListGroup>
+                        </Card>
+
+
+                        <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${this.state.locationData.lat},${this.state.locationData.lon}`} alt={this.state.locationData.display_name} />
+                        <Weather weatherData={this.state.weatherData} />
+                        <Movies moviesData={this.state.moviesData}/>
+                    </>
+                    : null
+                }
 
                 {
-    this.state.danger ?
-    <Alert variant='danger' style={{ width: '25rem' }}>
-        please enter correct city name ... no city like this.
-    </Alert> : null
-}
+                    this.state.danger ?
+                        <Alert variant='danger' style={{ width: '25rem' }}>
+                            please enter correct city name ... no city like this.
+                        </Alert> : null
+                }
 
             </main >
         )
