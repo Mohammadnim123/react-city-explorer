@@ -50,6 +50,7 @@ export class Main extends Component {
         catch {
 
             this.setState({
+                loading:false,
                 checkData: false,
                 danger: true
             })
