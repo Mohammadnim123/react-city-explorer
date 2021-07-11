@@ -1,18 +1,16 @@
 import React from 'react'
-import { Card, ListGroup } from 'react-bootstrap'
+import WeatherDay from './WeatherDay'
+
 export default function Weather(props) {
     return (
         <div className="weather-container">
             <h1>Weather Status</h1>
             {props.weatherData.map((elem, idx) => {
-                return <Card style={{ width: '18rem' }} key={idx} className='weather-card'>
-
-                    <ListGroup variant="flush">
-                        <ListGroup.Item>Description:{elem.description}</ListGroup.Item>
-                        <ListGroup.Item>Date:{elem.date}</ListGroup.Item>
-
-                    </ListGroup>
-                </Card>
+                return <WeatherDay
+                key={idx}
+                description={elem.description}
+                date={elem.date}
+                />
             })}
 
         </div>
