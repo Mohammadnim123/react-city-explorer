@@ -6,6 +6,7 @@ export default function Movies(props) {
             <h1>Movies</h1>
             {props.moviesData.map((elem, idx) => {
                 return <Movie
+                key = {idx}
                 released_on = {elem.released_on}
                 title= {elem.title}
                 overview= {elem.overview}
