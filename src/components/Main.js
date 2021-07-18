@@ -5,6 +5,8 @@ import Weather from './Weather'
 import Movies from './Movies'
 import Loading from './Loading';
 
+const locationStorage = {};
+
 export class Main extends Component {
     constructor(props) {
         super(props);
@@ -31,10 +33,23 @@ export class Main extends Component {
         try {
 
             this.setState({
-                loading:true
+                loading:true,
+                checkData: false
             })
 
-            let locationData = await axios.get(`https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_CITY_KEY}&q=${this.state.formVal}&format=json`)
+            let locationUrl = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_CITY_KEY}&q=${this.state.formVal}&format=json`;
+            let locationData;
+            if(locationStorage[this.state.formVal] !== undefined){
+                console.log('catched');
+                locationData = locationStorage[this.state.formVal];
+            }
+            else{
+                console.log('not catched');
+                locationData = await axios.get(locationUrl);
+                locationStorage[this.state.formVal] = locationData;
+            }
+
+            
             let weatherData = await axios.get(`${process.env.REACT_APP_SERVER}/weather?searchQuery=${this.state.formVal}&lat=${locationData.data[0].lat}&lon=${locationData.data[0].lon}`)
             let moviesData = await axios.get(`${process.env.REACT_APP_SERVER}/movies?searchQuery=${this.state.formVal}`)
             this.setState({
@@ -61,6 +76,7 @@ export class Main extends Component {
     render() {
         return (
             <main>
+                <div className="hero">
                 <Form style={{ width: '18rem' }} onSubmit={this.submitHandler}>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Enter city</Form.Label>
@@ -72,8 +88,10 @@ export class Main extends Component {
                         Explore!
                     </Button>
                 </Form>
-
+                </div>
                 {this.state.loading?<Loading/>:null}
+
+                <div id='result'>
 
                 {this.state.checkData ?
                     <>
@@ -100,6 +118,7 @@ export class Main extends Component {
                             please enter correct city name ... no city like this.
                         </Alert> : null
                 }
+                </div>
 
             </main >
         )
