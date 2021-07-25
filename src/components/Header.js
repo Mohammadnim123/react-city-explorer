@@ -8,9 +8,10 @@ export default function Header() {
         <Container>
         <Navbar.Brand href="#home">City Exploler</Navbar.Brand>
         <Nav className="me-auto">
-          <Nav.Link href="#location">Location</Nav.Link>
+          
           <Nav.Link href="#weather">Weather</Nav.Link>
           <Nav.Link href="#movies">Movies</Nav.Link>
+          <Nav.Link href="#yelp">Yelp</Nav.Link>
         </Nav>
         </Container>
       </Navbar>
