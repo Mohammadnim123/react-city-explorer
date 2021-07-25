@@ -4,13 +4,26 @@ import { Form, Button, Card, ListGroup, Alert } from 'react-bootstrap'
 import Weather from './Weather'
 import Movies from './Movies'
 import Loading from './Loading';
+import Yelp from './Yelp'
 
-const locationStorage = {};
+let locationStorage = {};
+
+const setLocalStorage = function(){
+    
+    localStorage.setItem('location', JSON.stringify(locationStorage));
+}
+
+let retrievedObject = localStorage.getItem('location');
+if(retrievedObject){
+    locationStorage = JSON.parse(retrievedObject)
+}
+
 
 export class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            yelpPage:1,
             formVal: '',
             locationData: {},
             weatherData: [],
@@ -21,11 +34,36 @@ export class Main extends Component {
 
         }
     }
+    yelpNextPageHandler = async()=>{
+        this.setState({
+            yelpPage : this.state.yelpPage + 1
+        })
+        let yelpData = await axios.get(`${process.env.REACT_APP_SERVER}/yelp?searchQuery=${this.state.formVal}&page=${this.state.yelpPage}`);
+        this.setState({
+            yelpData: yelpData.data
+        })
+    }
+
+    yelpPrevPageHandler = async()=>{
+        if(this.state.yelpPage > 0){
+        this.setState({
+            yelpPage : this.state.yelpPage - 1
+        })
+        let yelpData = await axios.get(`${process.env.REACT_APP_SERVER}/yelp?searchQuery=${this.state.formVal}&page=${this.state.yelpPage}`);
+        this.setState({
+            yelpData: yelpData.data
+        })
+    }else{
+        alert("This is the first page")
+    }
+    }
+
 
     cityHandler = (e) => {
         this.setState({
             formVal: e.target.value
         })
+
     }
 
     submitHandler = async (e) => {
@@ -47,15 +85,18 @@ export class Main extends Component {
                 console.log('not catched');
                 locationData = await axios.get(locationUrl);
                 locationStorage[this.state.formVal] = locationData;
+                setLocalStorage();
             }
 
             
             let weatherData = await axios.get(`${process.env.REACT_APP_SERVER}/weather?searchQuery=${this.state.formVal}&lat=${locationData.data[0].lat}&lon=${locationData.data[0].lon}`)
             let moviesData = await axios.get(`${process.env.REACT_APP_SERVER}/movies?searchQuery=${this.state.formVal}`)
+            let yelpData = await axios.get(`${process.env.REACT_APP_SERVER}/yelp?searchQuery=${this.state.formVal}&page=1`)
             this.setState({
                 locationData: locationData.data[0],
                 weatherData: weatherData.data,
                 moviesData: moviesData.data,
+                yelpData: yelpData.data,
                 danger: false,
                 checkData: true,
                 loading:false
@@ -74,6 +115,7 @@ export class Main extends Component {
 
 
     render() {
+
         return (
             <main>
                 <div className="hero">
@@ -108,6 +150,7 @@ export class Main extends Component {
                         <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${this.state.locationData.lat},${this.state.locationData.lon}`} alt={this.state.locationData.display_name} />
                         <Weather weatherData={this.state.weatherData} />
                         <Movies moviesData={this.state.moviesData}/>
+                        <Yelp yelpData={this.state.yelpData} yelpNextPageHandler={this.yelpNextPageHandler} yelpPrevPageHandler={this.yelpPrevPageHandler} />
                     </>
                     : null
                 }
