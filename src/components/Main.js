@@ -5,6 +5,7 @@ import Weather from './Weather'
 import Movies from './Movies'
 import Loading from './Loading';
 import Yelp from './Yelp'
+import './css/main.css'
 
 let locationStorage = {};
 
@@ -118,10 +119,14 @@ export class Main extends Component {
 
         return (
             <main>
-                <div className="hero">
-                <Form style={{ width: '18rem' }} onSubmit={this.submitHandler}>
+
+                <div className="main-hero">
+                    <div className='main-overlay'></div>
+                    <div className='main-form-title-container'>
+                    <h1>City Explorer</h1>
+                <Form className='main-form'  onSubmit={this.submitHandler}>
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Enter city</Form.Label>
+                        <Form.Label>Enter City</Form.Label>
                         <Form.Control type="text" placeholder="add any city ..." onChange={this.cityHandler} />
 
                     </Form.Group>
@@ -131,6 +136,9 @@ export class Main extends Component {
                     </Button>
                 </Form>
                 </div>
+                </div>
+
+                
                 {this.state.loading?<Loading/>:null}
 
                 <div id='result'>

@@ -15,7 +15,7 @@ export class Yelp extends Component {
             <div id='yelp'>
                 <h1>Yelp</h1>
                 {this.props.yelpData.map(elem => {
-                    return <Card style={{ width: '18rem' }}>
+                    return <Card style={{ width: '18rem' , height: '30rem'}}>
                         <Card.Img variant="top" src={elem.image_url} />
                         <Card.Body>
                             <Card.Title>{elem.name}</Card.Title>

@@ -4,7 +4,7 @@ import WeatherDay from './WeatherDay'
 export default function Weather(props) {
     return (
         <div className="weather-container" id='weather'>
-            <h1>Weather Status</h1>
+            <h1 style={{color:'red'}}>Weather Status</h1>
             {props.weatherData.map((elem, idx) => {
                 return <WeatherDay
                 key={idx}

@@ -1,0 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+/* font-family: 'Lobster', cursive; */
+@import url('https://fonts.googleapis.com/css2?family=Abel&family=Lobster&family=Prompt:wght@300&display=swap');
+
+.main-hero {
+  background-image: url("https://wallpaper.dog/large/5567966.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 42rem;
+  position: relative;
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.main-overlay {
+  background-color: #0000009c;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 42rem;
+  width: 100%;
+}
+
+
+
+.main-form .form-label {
+    display: inline-block;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-family: 'Abel', sans-serif;
+    color: white;
+}
+
+.main-form-title-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  z-index: 10 !important;
+  position: relative;
+  height: 20rem;
+
+}
+
+.main-form-title-container h1 {
+  font-family: "Lobster", cursive;
+  color: white;
+  font-size: 5rem;
+}
