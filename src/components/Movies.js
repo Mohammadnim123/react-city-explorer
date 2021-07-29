@@ -1,9 +1,12 @@
 import React from 'react'
 import Movie from './Movie'
 export default function Movies(props) {
+    
     return (
+        <>
         <div className="movies-container" id='movies'>
-            <h1>Movies</h1>
+        {props.moviesData.length && <h1>Movies</h1>}
+            
             {props.moviesData.map((elem, idx) => {
                 return <Movie
                 key = {idx}
@@ -17,5 +20,6 @@ export default function Movies(props) {
 
             })}
         </div>
+        </>
     )
 }

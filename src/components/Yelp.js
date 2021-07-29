@@ -12,8 +12,10 @@ export class Yelp extends Component {
     render() {
         console.log(this.props.yelpData);
         return (
+            <>
             <div id='yelp'>
-                <h1>Yelp</h1>
+            {this.props.yelpData.length && <h1>Yelp</h1>}
+                
                 {this.props.yelpData.map(elem => {
                     return <Card style={{ width: '18rem' , height: '30rem'}}>
                         <Card.Img variant="top" src={elem.image_url} />
@@ -28,6 +30,7 @@ export class Yelp extends Component {
                         </Card.Body>
                     </Card>
                 })}
+                {this.props.yelpData.length && 
                 <ToggleButtonGroup type="checkbox" >
                     <ToggleButton id="tbg-btn-1" value={1} onClick={this.props.yelpPrevPageHandler}>
                         Previous
@@ -36,9 +39,10 @@ export class Yelp extends Component {
                     Next
                     </ToggleButton>
 
-                </ToggleButtonGroup>
+                </ToggleButtonGroup>}
 
             </div>
+            </>
         )
     }
 }
