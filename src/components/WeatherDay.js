@@ -1,8 +1,9 @@
 import React from 'react'
-import { Card, ListGroup } from 'react-bootstrap'
+import { Card, ListGroup,Col } from 'react-bootstrap'
 
 export default function WeatherDay(props) {
     return (
+        <Col lg={3}>
         <Card style={{ width: '18rem' }} className='weather-card'>
 
             <ListGroup variant="flush">
@@ -11,5 +12,6 @@ export default function WeatherDay(props) {
 
             </ListGroup>
         </Card>
+        </Col>
     )
 }
