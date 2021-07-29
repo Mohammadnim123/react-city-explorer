@@ -120,6 +120,7 @@ export class Main extends Component {
         return (
             <main>
 
+
                 <div className="main-hero">
                     <div className='main-overlay'></div>
                     <div className='main-form-title-container'>
@@ -141,10 +142,15 @@ export class Main extends Component {
                 
                 {this.state.loading?<Loading/>:null}
 
-                <div id='result'>
+                
+
+                <div id='result' className='main-result'>
 
                 {this.state.checkData ?
                     <>
+                    <div className="main-to-margin"></div>
+                        <h1 className='dynamic-text-shadow'>Location</h1>
+                    <div className='main-location'>
                         <Card style={{ width: '18rem' }}>
 
                             <ListGroup variant="flush">
@@ -155,7 +161,8 @@ export class Main extends Component {
                         </Card>
 
 
-                        <img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${this.state.locationData.lat},${this.state.locationData.lon}`} alt={this.state.locationData.display_name} />
+                        <div><img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${this.state.locationData.lat},${this.state.locationData.lon}`} alt={this.state.locationData.display_name} /></div>
+                        </div>
                         <Weather weatherData={this.state.weatherData} />
                         <Movies moviesData={this.state.moviesData}/>
                         <Yelp yelpData={this.state.yelpData} yelpNextPageHandler={this.yelpNextPageHandler} yelpPrevPageHandler={this.yelpPrevPageHandler} />
