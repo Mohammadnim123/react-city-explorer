@@ -4,7 +4,7 @@ import { Card, ListGroup,Col } from 'react-bootstrap'
 export default function WeatherDay(props) {
     return (
         <Col lg={3}>
-        <Card style={{ width: '18rem' }} className='weather-card'>
+        <Card style={{ width: '18rem' , margin: 'auto' , marginTop: '2rem'}} className='weather-card'>
 
             <ListGroup variant="flush">
                 <ListGroup.Item>Description:{props.description}</ListGroup.Item>

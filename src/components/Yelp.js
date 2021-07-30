@@ -23,7 +23,7 @@ export class Yelp extends Component {
 
                 
                 {this.props.yelpData.map(elem => {
-                    return <Col lg={4}><Card style={{ width: '18rem', height: '35rem' , marginTop: '1rem'}}>
+                    return <Col lg={4}><Card style={{ width: '18rem', height: '35rem' , margin: 'auto' , marginTop: '2rem'}}>
                         <Card.Img variant="top" src={elem.image_url} style={{width: '18rem' , height: '18rem'}} />
                         <Card.Body>
                             <Card.Title>{elem.name}</Card.Title>

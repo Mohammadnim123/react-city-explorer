@@ -154,7 +154,7 @@ export class Main extends Component {
                         </Card>
 
 
-                        <div><img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${this.state.locationData.lat},${this.state.locationData.lon}`} alt={this.state.locationData.display_name} /></div>
+                        <div><img src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_CITY_KEY}&center=${this.state.locationData.lat},${this.state.locationData.lon}`} alt={this.state.locationData.display_name} style={{width: '100%'}}/></div>
                         </div>
                         <Weather weatherData={this.state.weatherData} />
                         <Movies moviesData={this.state.moviesData}/>

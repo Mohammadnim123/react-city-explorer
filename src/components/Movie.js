@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap'
 
 export default function Movie(props) {
     return (
-        <Card style={{ width: '18rem', marginTop: '10px'  }}>
+        <Card style={{ width: '18rem', margin: 'auto' , marginTop: '2rem'  }}>
             <Card.Header>
                 <small className="text-muted">released on: {props.released_on}</small>
             </Card.Header>
