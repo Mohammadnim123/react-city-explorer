@@ -7,7 +7,10 @@ export default function Movies(props) {
     return (
         <>
         <div className="movies-container" id='movies'>
-        {props.moviesData.length && <h1>Movies</h1>}
+        <div className="main-to-margin"></div>
+        {props.moviesData.length && <h1 className='dynamic-text-shadow'>Movies</h1>}
+                        
+            
         <Container>
             <Row>
             {props.moviesData.map((elem, idx) => {

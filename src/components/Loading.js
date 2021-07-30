@@ -16,7 +16,7 @@ export default function Loading() {
 
         <div className="sweet-loading">
   
-        <RingLoader loading={true} css={override} size={150} color="#007bff" />
+        <RingLoader  loading={true} css={override} size={150} color="#007bff" />
       </div>
 
     )

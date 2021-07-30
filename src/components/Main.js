@@ -29,6 +29,8 @@ export class Main extends Component {
             locationData: {},
             weatherData: [],
             moviesData:[],
+            yelpData:[],
+            
             danger: false,
             checkData: false,
             loading: false
@@ -39,25 +41,14 @@ export class Main extends Component {
         this.setState({
             yelpPage : this.state.yelpPage + 1
         })
-        let yelpData = await axios.get(`${process.env.REACT_APP_SERVER}/yelp?searchQuery=${this.state.formVal}&page=${this.state.yelpPage}`);
+        let yelpData = await axios.get(`${process.env.REACT_APP_SERVER}/yelp?searchQuery=${this.state.formVal}&page=${this.state.yelpPage + 1}`);
         this.setState({
-            yelpData: yelpData.data
+            yelpData: [...this.state.yelpData, ...yelpData.data]
         })
+
     }
 
-    yelpPrevPageHandler = async()=>{
-        if(this.state.yelpPage > 0){
-        this.setState({
-            yelpPage : this.state.yelpPage - 1
-        })
-        let yelpData = await axios.get(`${process.env.REACT_APP_SERVER}/yelp?searchQuery=${this.state.formVal}&page=${this.state.yelpPage}`);
-        this.setState({
-            yelpData: yelpData.data
-        })
-    }else{
-        alert("This is the first page")
-    }
-    }
+
 
 
     cityHandler = (e) => {
@@ -75,6 +66,8 @@ export class Main extends Component {
                 loading:true,
                 checkData: false
             })
+
+            document.getElementById('loading').scrollIntoView({behavior: "smooth"});
 
             let locationUrl = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_CITY_KEY}&q=${this.state.formVal}&format=json`;
             let locationData;
@@ -139,7 +132,7 @@ export class Main extends Component {
                 </div>
                 </div>
 
-                
+                <div id='loading'></div>
                 {this.state.loading?<Loading/>:null}
 
                 
